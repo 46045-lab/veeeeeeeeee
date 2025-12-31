@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+
+.userinfo {
+  flex-direction: column;
+  width: 400px;
+  padding: 20px;
+  margin:auto;
+  margin-left: 580px;
+  font-size: 30px;
+}
+
+.submit-button {
+  padding: 15px 30px;
+  font-size: 27px;
+  margin:auto;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: crimson;
+  color:aliceblue;
+  border:black;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+</style>
+
+
+
+
+  <title >Test website</title>
+</head>
+<body style="background-color:lightblue">
+
+
+
+<h2 style="color:crimson; font-size: 40px;">Login page1</h2>
+
+
+<div class="userinfo">
+  <input style="color:rgb(0, 0, 0); font-size: 25px;" type="text" id="name" placeholder="Name"> <br><br>
+  <input style="color:rgb(0, 0, 0); font-size: 25px;" type="text" id="sur"placeholder="Surname"><br><br>
+  <input style="color:rgb(0, 0, 0); font-size: 25px;" type="text" id="nick" placeholder="Nickname"> <br><br>
+  <input style="color:rgb(0, 0, 0); font-size: 25px;" type="number" id="id"placeholder="Student ID"><br><br>
+  <label>Class</label>
+<select id="clazz">
+  <option value="">Select class</option>
+  <option value="1">Class 1</option>
+  <option value="2">Class 2</option>
+  <option value="3">Class 3</option>
+  <option value="4">Class 4</option>
+  <option value="5">Class 5</option>
+  <option value="6">Class 6</option>
+</select>
+
+<br><br>
+
+<label>Class Number</label>
+<select id="classNum">
+  <option value="">Select number</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+</select>
+
+<br><br>
+
+<label>Instrument</label>
+<select id="music">
+  <option value="">Select instrument</option>
+  <option value="Flute">Flute</option>
+  <option value="Piccolo">Piccolo</option>
+  <option value="Clarinet">Clarinet</option>
+  <option value="Alto Saxophone">Alto Saxophone</option>
+  <option value="Tenor Saxophone">Tenor Saxophone</option>
+  <option value="Baritone Saxophone">Baritone Saxophone</option>
+  <option value="Horn">Horn</option>
+  <option value="Trumpet">Trumpet</option>
+  <option value="Trombone">Trombone</option>
+  <option value="Euphonium">Euphonium</option>
+  <option value="Tuba">Tuba</option>
+  <option value="Bass Drum">Bass Drum</option>
+  <option value="Snare Drum">Snare Drum</option>
+  <option value="Cymbals">Cymbals</option>
+  <option value="Rifle">Rifle</option>
+  <option value="Flag">Flag</option>
+  <option value="Drum Major">Drum Major</option>
+</select>
+
+</div>
+
+<button onclick="goNext()" class="submit-button">Next</button>
+
+
+<div class="overlay" id="confirmBox">
+  <div class="box">
+    <p>Are you sure you want to continue?</p>
+    <button onclick="confirmYes(),sendData(),location.href='index_page2.html'">Yes</button>
+    <button onclick="confirmNo()">No</button>
+  </div>
+</div>
+
+
+
+<script>
+
+/*if (localStorage.getItem("submitted")) {
+  location.href = "index_page3.html";
+}*/
+
+
+
+function goNext() {
+  const user = {
+    name: document.getElementById("name").value,
+    sur: document.getElementById("sur").value,
+    nick: document.getElementById("nick").value,
+    id: document.getElementById("id").value,
+    clazz: "Class " + document.getElementById("clazz").value,
+    classNum: document.getElementById("classNum").value,
+    music: document.getElementById("music").value
+  };
+
+  if (!user.name || !user.id || !user.clazz || !user.classNum || !user.music) {
+    alert("Please complete all fields");
+    return;
+  }
+
+  localStorage.setItem("userInfo", JSON.stringify(user));
+  location.href = "index_page2.html";
+}
+
+
+
+/*
+function openConfirm() {
+  document.getElementById("confirmBox").style.display = "flex";
+}
+
+function confirmYes() {;
+  document.getElementById("confirmBox").style.display = "none";
+  alert("Confirmed! Sending data...");
+}
+
+function confirmNo() {
+  document.getElementById("confirmBox").style.display = "none";
+}
+
+
+
+function sendData() {
+
+  const data = {
+    name: document.getElementById("name").value,
+    sur: document.getElementById("sur").value,
+    id: document.getElementById("id").value,
+    class: document.getElementById("clazz").value,
+    num: document.getElementById("music").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbyEFgwQEO6bhVK9SDREKz42JNZP6rEX0ULxI8bTInkBGR-ngu5edq_J8c8e4TXfZ3YC/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(response => {
+    document.getElementById("confirmBox").style.display = "none";
+    alert("Data sent successfully!");
+  })
+  .catch(err => alert("Error"));
+}
+  */
+</script>
+
+</body>
+</html>

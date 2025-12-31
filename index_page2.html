@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+body {
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr; /*1 row type shi */
+  gap: 15px;
+  width: 750px;
+}
+
+
+button {
+  padding: 18px;
+  font-size: 18px;
+  width: 100%;
+}
+
+
+.full {
+  background: #ccc;
+}
+</style>
+</head>
+    <title>Selection page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<body style="background-color:lightgreen">
+
+  <form id="sendForm"
+      action="https://script.google.com/macros/s/AKfycbzIOSYP92pZQMY5oRK2wAZ9UGVYPFScpdk42JlE0uh-_nJvR6IFdXi-gIvEJ_wvdm5Z/exec"
+      method="POST"
+      style="display:none;">
+
+  <input name="name">
+  <input name="sur">
+  <input name="nick">
+  <input name="id">
+  <input name="clazz">
+  <input name="classNum">
+  <input name="music">
+</form>
+
+<div class="container">
+  <button onclick="choose('Welfare Division')" id="Welfare Division"></button>
+  <button onclick="choose('Equipment & Instrument Division')" id="Equipment & Instrument Division"></button>
+  <button onclick="choose('Public Relation')" id="Public Relation"></button>
+  <button onclick="choose('Human Resources')" id="Human Resources"></button>
+</div>
+
+<button onclick="resetChoices()">Reset Choices</button>
+
+
+
+
+<script>
+
+
+/*if (localStorage.getItem("submitted")) {
+  location.href = "index_page3.html";
+}*/
+
+const MAX = 15;
+const options = ["Welfare Division", "Equipment & Instrument Division", "Public Relation", "Human Resources"];
+
+// block user if already chosen
+
+
+// initialize counts
+options.forEach(opt => {
+  if (!localStorage.getItem(opt)) {
+    localStorage.setItem(opt, 0);
+  }
+});
+
+function resetChoices() {
+  if (!confirm("Reset all choices back to 15?")) return;
+
+  options.forEach(opt => {
+    localStorage.setItem(opt, 0);
+  });
+
+  localStorage.removeItem("chosen");
+  localStorage.removeItem("submitted");
+
+  render(); // refresh button text
+}
+
+
+function render() {
+  options.forEach(opt => {
+    const count = parseInt(localStorage.getItem(opt));
+    const btn = document.getElementById(opt);
+
+    if (count >= MAX) {
+      btn.textContent = opt + " (FULL)";
+      btn.disabled = true;
+      btn.classList.add("full");
+    } else {
+      btn.textContent = opt + " (" + (MAX - count) + " left)";
+    }
+  });
+}
+
+function choose(choice) {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  if (!user) {
+    alert("No user info");
+    return;
+  }
+
+  const form = document.getElementById("sendForm");
+
+  form.name.value = user.name;
+  form.sur.value = user.sur;
+  form.nick.value = user.nick;
+  form.id.value = user.id;
+  form.clazz.value = user.clazz;
+  form.classNum.value = user.classNum;
+  form.music.value = choice;
+
+  form.submit(); // 🔥 THIS SENDS DATA
+}
+
+
+
+
+
+
+render();
+</script>
+
+</body>
+</html>
